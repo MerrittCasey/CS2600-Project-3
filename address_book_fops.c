@@ -3,18 +3,20 @@
 #define F_OK 0
 #define access _access
 #endif
-//this is for windows ^^
+//this is for windows ^^ comment it out if ur on linux
 
+//#include <unistd.h> //uncomment if ur on linux
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <unistd.h> //uncomment if ur on linux
 #include <sys/stat.h>
 #include <errno.h>
 #include <ctype.h>
 
 #include "address_book.h"
 
+/*Load File*/
+//Works very unreadable atm tho lol
 Status load_file(AddressBook *address_book)
 {
 	int ret = access(DEFAULT_FILE, F_OK); // returns 0 if file exists
@@ -35,27 +37,27 @@ Status load_file(AddressBook *address_book)
 		address_book->fp = fopen(DEFAULT_FILE, "r");
 
 		ContactInfo* list = malloc(sizeof(ContactInfo) * size); //creating list with size that we got above
-		int count = 0;
+		int count = 0;//outer loop this is used to go through list[]
 		
 		while(fgets(line, sizeof(line), address_book->fp)){
-			int tracker = 0;
+			int tracker = 0;//inner loop used to traverse phone_numbers[] and email_address[]
 			char *token;
 			token = strtok(line, ", ");
 
 			while(token){
 				if(tracker == 0){
-					strcpy(list[count].name[tracker], token);
+					strcpy(list[count].name[tracker], token);//copying into array
 				}else if(tracker > 0 && tracker <= 5){
-					strcpy(list[count].phone_numbers[tracker - 1], token);
+					strcpy(list[count].phone_numbers[tracker - 1], token);//copying into array
 				}else if(tracker > 5 && tracker <= 10){
-					strcpy(list[count].email_addresses[tracker - 6], token);
+					strcpy(list[count].email_addresses[tracker - 6], token);//copying into array
 				}
 				
-				token = strtok(NULL, ", ");
+				token = strtok(NULL, ", ");//iterating through token
 				tracker++;
 			}
 
-			list[count].si_no = count;
+			list[count].si_no = count + 1;
 			
 			count++;
 		}
@@ -72,6 +74,8 @@ Status load_file(AddressBook *address_book)
 	return e_success;
 }
 
+/*Saves Contents of the array to the file*/
+//Untested but should work
 Status save_file(AddressBook *address_book)
 {
 	/*
