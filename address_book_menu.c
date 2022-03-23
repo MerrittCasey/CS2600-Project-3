@@ -124,23 +124,75 @@ Status menu(AddressBook *address_book)
 	return e_success;
 }
 
+/*Add Contacts*/
+//Reallocs memory and increases size by one
+//Works but needs change to fit io
 Status add_contacts(AddressBook *address_book)
 {
-	/* Add the functionality for adding contacts here */
+	ContactInfo* newList = realloc(address_book->list, sizeof(ContactInfo) * (address_book->count + 1));
+	address_book->list = newList;
+	address_book->count = address_book->count + 1;
+
+	char arr[32];
+	printf("Enter Name: ");
+	scanf("%s", arr);
+	
+	address_book->list[address_book->count - 1].si_no = (address_book->count - 1);
+	strcpy(address_book->list[address_book->count - 1].name[0], arr);
+
+	for(int i = 0; i < 5; i++){
+		printf("Enter Phone Number %d: ", i + 1);
+		scanf("%s", arr);
+		strcpy(address_book->list[address_book->count - 1].phone_numbers[i], arr);
+	}
+
+	for(int i = 0; i < 5; i++){
+		printf("Enter Email Number %d: ", i + 1);
+		scanf("%s", arr);
+		strcpy(address_book->list[address_book->count - 1].email_addresses[i], arr);
+	}
+
+	printf("Successfully added new contact!\n");
+
 	return e_success;
 }
 
-// Status search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
-// {
-// 	/* Add the functionality for adding contacts here */
-// }
-
+/**/
+//
 Status search_contact(AddressBook *address_book)
 {
-	/* Add the functionality for search contacts here */
+	int option = 0;
+	printf("Enter What Your Searching With: ");
+	scanf("%d", option);
+
+	char arr[32];
+	int pos = 0;
+	if(option == e_name){
+		printf("Enter Name: ");
+		scanf("%s", arr);
+		
+		pos = search(arr, address_book, e_name);
+	}else if(option == e_phone){
+		printf("Enter Phone #: ");
+		scanf("%s", arr);
+		
+		pos = search(arr, address_book, e_phone);
+	}else if(option == e_email){
+		printf("Enter Email: ");
+		scanf("%s", arr);
+		
+		pos = search(arr, address_book, e_email);
+	}
+
+	if(pos == e_fail){
+		printf("Not Found\n");
+	}else{
+		//print
+	}
 	return e_success;
 }
 
+/**/
 Status edit_contact(AddressBook *address_book)
 {
 	/* Add the functionality for edit contacts here */
@@ -155,25 +207,49 @@ Status delete_contact(AddressBook *address_book)
 
 Status list_contacts(AddressBook *address_book)//, const char *title, int *index, const char *msg, Modes mode
 {
-	printf("=========================================================================\n");
-	printf(": S.No : Name \t\t: Phone No \t\t: Email ID \t\t:\n");
+	printf("=================================================================================================================\n");
+	printf(": S.No : %-32s : %-32s : %-32s :\n", " Name", " Phone No", "Email ID");
 	for(int i = 0; i < address_book->count; i++){
-		printf("=========================================================================\n");
-		printf(": %d\t: %s \t\t: ", address_book->list[i].si_no + 1, address_book->list[i].name);
-
-		for(int j = 0; i < 5; j++){
+		printf("=================================================================================================================\n");
+		printf(": %d    : %-32s : ", address_book->list[i].si_no + 1, address_book->list[i].name);
+		for(int j = 0; j < 5; j++){
 			if(j == 0){
-				printf("%s\t\t: %s\t\t:\n", address_book->list[i].phone_numbers[j], address_book->list[i].email_addresses[j]);
+				printf("%-32s : %-32s :\n", address_book->list[i].phone_numbers[j], address_book->list[i].email_addresses[j]);
 			}else{
-				printf(":\t: \t\t: %s\t\t: %s\t\t:\n", address_book->list[i].phone_numbers[j], address_book->list[i].email_addresses[j]);
+				printf(":      : %-32s : %-32s : %-32s :\n", " ", address_book->list[i].phone_numbers[j], address_book->list[i].email_addresses[j]);
 			}
 		}
-
-		printf("=========================================================================\n");
 	}
-
-	printf("=========================================================================\n");
-	printf("\n");
+	printf("=================================================================================================================\n");
 
 	return e_success;
+}
+
+int search(const char *str, AddressBook *address_book, Searchtype type)
+{
+	if(type == e_name){
+		for(int i = 0; i < address_book->count; i++){
+			if(strcmp(address_book->list[i].name[0], str) == 0){
+				return i;
+			}
+		}
+	}else if(type == e_phone){
+		for(int i = 0; i < address_book->count; i++){
+			for(int j = 0; j < 5; j++){
+				if(strcmp(address_book->list[i].phone_numbers[j], str) == 0){
+					return i;
+				}
+			}
+		}
+	}else if(type == e_email){
+		for(int i = 0; i < address_book->count; i++){
+			for(int j = 0; j < 5; j++){
+				if(strcmp(address_book->list[i].email_addresses[j], str) == 0){
+					return i;
+				}
+			}
+		}
+	}
+
+	return e_fail;
 }

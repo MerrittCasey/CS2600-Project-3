@@ -9,32 +9,23 @@
 
 int main(void)
 {
-	AddressBook address_book;
+	AddressBook* address_book = malloc(sizeof(address_book));
 	Status ret;
 
-	ret = load_file(&address_book);
+	ret = load_file(address_book);
 
-	for(int i = 0; i < address_book.count; i++){
-		printf("%s : ", address_book.list[i].name);
-		for(int j = 0; j < 5; j++){
-			printf("%s %s ", address_book.list[i].phone_numbers[j], address_book.list[i].email_addresses[j]);
+	if (ret == e_success)
+	{
+		/* Show all the available menu */
+		ret = menu(address_book);
+
+		if (ret == e_success)
+		{
+			/* Save the entries */
+			//save_prompt(&address_book);
 		}
-		printf("\n");
 	}
 
-
-
-	// if (ret == e_success)
-	// {
-	// 	/* Show all the available menu */
-	// 	ret = menu(&address_book);
-
-	// 	if (ret == e_success)
-	// 	{
-	// 		/* Save the entries */
-	// 		//save_prompt(&address_book);
-	// 	}
-	// }
-
+	free(address_book);
 	return 0;
 }

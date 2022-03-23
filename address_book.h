@@ -31,6 +31,13 @@ typedef enum
 	e_list,
 } Modes;
 
+typedef enum
+{
+	e_name,
+	e_phone,
+	e_email,
+}Searchtype;
+
 typedef enum 
 {
 	e_first_opt,
