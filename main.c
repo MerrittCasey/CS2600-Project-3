@@ -22,7 +22,7 @@ int main(void)
 		if (ret == e_success)
 		{
 			/* Save the entries */
-			//save_prompt(&address_book); test this later
+			save_prompt(address_book);//test this later
 		}
 	}
 

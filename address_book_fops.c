@@ -90,18 +90,21 @@ Status save_file(AddressBook *address_book)
 
 		for(int i = 0; i < address_book->count; i++){
 			fprintf(address_book->fp, "%s,", address_book->list[i].name[0]);
-			for(int j = 0; j < 5; j++){
-				fprintf(address_book->fp, " %s,", address_book->list[i].phone_numbers[j]);
+			for(int j = 0; j < 10; j++){
+				if(j < 5){
+					fprintf(address_book->fp, " %s,", address_book->list[i].phone_numbers[j]);
+				}else if(j >= 5 && j < 10){
+					fprintf(address_book->fp, " %s, ", address_book->list[i].email_addresses[j - 5]);
+				}
 			}
-			for(int j = 0; j < 5; j++){
-				fprintf(address_book->fp, " %s,\n", address_book->list[i].email_addresses[j]);
+			if(i != address_book->count - 1){
+				fprintf(address_book->fp, "\n");//making sure we dont get an extra line in the csv file
 			}
 		}
 	}
 
 	fclose(address_book->fp);
 	free(address_book->list);
-	free(address_book);
 
 	return e_success;
 }

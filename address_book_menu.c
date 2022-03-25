@@ -199,46 +199,6 @@ Status search_contact(AddressBook *address_book)
 	return e_success;
 }
 
-/*Edits Contacts*/
-//Search contacts find the correct one then edit the info based on user input
-Status edit_contact(AddressBook *address_book)
-{
-	/* Add the functionality for edit contacts here */
-	return e_success;
-}
-
-/*Delete Contact*/
-//Search for contact to delete then delete it from array,
-//shift array over to get rid of empty spot then re-allocate memory for the new size
-Status delete_contact(AddressBook *address_book)
-{
-	/* Add the functionality for delete contacts here */
-	return e_success;
-}
-
-/*List Contacts*/
-//Right now this just lists all the contacts in the book.
-//I think its supposed to be called for anytime we list stuff like, edit and search and shit.
-Status list_contacts(AddressBook *address_book, const char *title, int *index, const char *msg, Modes mode)
-{
-	printf("=================================================================================================================\n");
-	printf(": S.No : %-32s : %-32s : %-32s :\n", " Name", " Phone No", "Email ID");
-	for(int i = 0; i < address_book->count; i++){
-		printf("=================================================================================================================\n");
-		printf(": %d    : %-32s : ", address_book->list[i].si_no, address_book->list[i].name);
-		for(int j = 0; j < 5; j++){
-			if(j == 0){
-				printf("%-32s : %-32s :\n", address_book->list[i].phone_numbers[j], address_book->list[i].email_addresses[j]);
-			}else{
-				printf(":      : %-32s : %-32s : %-32s :\n", " ", address_book->list[i].phone_numbers[j], address_book->list[i].email_addresses[j]);
-			}
-		}
-	}
-	printf("=================================================================================================================\n");
-
-	return e_success;
-}
-
 /*Other Search Function*/
 //Search based on search type and return position in array
 int search(const char *str, AddressBook *address_book, int loop_count, int field, const char *msg, Modes mode)
@@ -268,4 +228,45 @@ int search(const char *str, AddressBook *address_book, int loop_count, int field
 	}
 
 	return e_fail;
+}
+
+/*Edits Contacts*/
+//Search contacts find the correct one then edit the info based on user input
+Status edit_contact(AddressBook *address_book)
+{
+	/* Add the functionality for edit contacts here */
+	return e_success;
+}
+
+/*Delete Contact*/
+//search by name and get position to delete
+//Reallocate memory to a new array that is smaller
+//copy from original array to new array skipping over position to delete
+//free memory from original array
+Status delete_contact(AddressBook *address_book)
+{
+	return e_success;
+}
+
+/*List Contacts*/
+//Right now this just lists all the contacts in the book.
+//I think its supposed to be called for anytime we list stuff like, edit and search and shit.
+Status list_contacts(AddressBook *address_book, const char *title, int *index, const char *msg, Modes mode)
+{
+	printf("=================================================================================================================\n");
+	printf(": S.No : %-32s : %-32s : %-32s :\n", " Name", " Phone No", "Email ID");
+	for(int i = 0; i < address_book->count; i++){
+		printf("=================================================================================================================\n");
+		printf(": %d    : %-32s : ", address_book->list[i].si_no, address_book->list[i].name);
+		for(int j = 0; j < 5; j++){
+			if(j == 0){
+				printf("%-32s : %-32s :\n", address_book->list[i].phone_numbers[j], address_book->list[i].email_addresses[j]);
+			}else{
+				printf(":      : %-32s : %-32s : %-32s :\n", " ", address_book->list[i].phone_numbers[j], address_book->list[i].email_addresses[j]);
+			}
+		}
+	}
+	printf("=================================================================================================================\n");
+
+	return e_success;
 }
