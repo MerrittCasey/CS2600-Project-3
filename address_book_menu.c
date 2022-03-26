@@ -234,7 +234,25 @@ int search(const char *str, AddressBook *address_book, int loop_count, int field
 //Search contacts find the correct one then edit the info based on user input
 Status edit_contact(AddressBook *address_book)
 {
-	/* Add the functionality for edit contacts here */
+	int option = 0;
+	while(option < 1 || option > 3){
+		printf("\n1. Edit by name.\n2. Edit contact by phone number.\n");
+		printf("3. Edit contact by email address.\n");
+		scanf("%d",&option);
+	}
+
+	switch (option){
+		case 1:
+			printf("name");
+			break;
+		case 2:
+			printf("number");
+			break;
+
+		case 3:
+			printf("email");
+			break;
+	}
 	return e_success;
 }
 
