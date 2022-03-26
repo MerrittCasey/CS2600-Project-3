@@ -184,6 +184,8 @@ Status search_contact(AddressBook *address_book)
 
 	char arr[32];
 	int pos = 0;
+	int prevpos = -1;
+	int namesFound = 0;
 	switch (option)
 	{
 	case 0:
@@ -193,7 +195,28 @@ Status search_contact(AddressBook *address_book)
 		printf("Enter Name: ");
 		scanf("%s", arr);
 		getchar();
-		pos = search(arr, address_book, NAME_COUNT,0,"",e_search);
+		for (int i = pos; i < address_book->count; i++)
+		{
+			pos = search(arr, address_book, i,0,"",e_search);
+			//display index where search was found; will be replaced w/ a call to list contact function
+			if(pos != e_fail && pos > prevpos){
+				printf("found at index %d\n", pos);
+				printf("=================================================================================================================\n");
+				printf(": S.No : %-32s : %-32s : %-32s :\n", " Name", " Phone No", "Email ID");
+				printf("=================================================================================================================\n");
+				printf(": %d    : %-32s : ", address_book->list[pos].si_no, address_book->list[pos].name);
+				for(int j = 0; j < 5; j++){
+					if(j == 0){
+						printf("%-32s : %-32s :\n", address_book->list[pos].phone_numbers[j], address_book->list[pos].email_addresses[j]);
+					}else{
+						printf(":      : %-32s : %-32s : %-32s :\n", " ", address_book->list[pos].phone_numbers[j], address_book->list[pos].email_addresses[j]);
+					}
+				}
+				printf("=================================================================================================================\n");
+				namesFound++;
+			}
+			prevpos = pos;
+		}
 		break;
 	case 2:
 		printf("Phone Number: ");
@@ -217,9 +240,11 @@ Status search_contact(AddressBook *address_book)
 		break;
 	}
 	
-	if(pos == e_fail){
+	if (option != 1 || namesFound == 0)
+	{
+		if(pos == e_fail){
 		printf("Not Found\n");
-	}else{
+		}else{
 		printf("found at index %d\n", pos);
 		//display index where search was found
 		printf("=================================================================================================================\n");
@@ -233,8 +258,10 @@ Status search_contact(AddressBook *address_book)
 				printf(":      : %-32s : %-32s : %-32s :\n", " ", address_book->list[pos].phone_numbers[j], address_book->list[pos].email_addresses[j]);
 			}
 		}
-	printf("=================================================================================================================\n");
+		printf("=================================================================================================================\n");
+		}
 	}
+
 	return e_success;
 }
 
@@ -245,7 +272,7 @@ int search(const char *str, AddressBook *address_book, int loop_count, int field
 	switch (field)
 	{
 	case 0:
-		for(int i = 0; i < address_book->count; i++){
+		for(int i = loop_count; i < address_book->count; i++){
 			if(strcmp(address_book->list[i].name[0], str) == 0){
 				return i;
 			}
