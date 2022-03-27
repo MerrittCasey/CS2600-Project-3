@@ -19,7 +19,8 @@
 //Works very unreadable atm tho lol
 Status load_file(AddressBook *address_book)
 {
-	int ret = access(DEFAULT_FILE, F_OK); // returns 0 if file exists
+	int ret = 0;
+	//access(DEFAULT_FILE, F_OK); // returns 0 if file exists
 
 	if (ret == 0)//file exists
 	{

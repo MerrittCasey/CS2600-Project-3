@@ -60,7 +60,7 @@ void menu_header(const char *str)
 	//system("cls"); this literally just constantly clears the console so no other prints shows up weird idk why it was included in the skeleton
 
 	printf("#######  Address Book  #######\n");
-	if (str != '\0')
+	if (str != NULL)
 	{
 		printf("#######  %s\n", str);
 	}
@@ -136,25 +136,30 @@ Status menu(AddressBook *address_book)
 //Works but needs change to fit IO
 Status add_contacts(AddressBook *address_book)
 {
+	printf("#######  Address Book  #######\n");
+	printf("####### Add Contact: \n\n");	
+
 	ContactInfo* newList = realloc(address_book->list, sizeof(ContactInfo) * (address_book->count + 1));
 	address_book->list = newList;
 	address_book->count = address_book->count + 1;
 
+	
+
 	char arr[32];
-	printf("Enter Name: ");
+	printf("1. Name       : %d\n");
 	scanf("%s", arr);
 	
 	address_book->list[address_book->count - 1].si_no = (address_book->count - 1);
 	strcpy(address_book->list[address_book->count - 1].name[0], arr);
 
 	for(int i = 0; i < 5; i++){
-		printf("Enter Phone Number %d: ", i + 1);
+		printf("2. Phone No 1 : %d \n", i + 1);
 		scanf("%s", arr);
 		strcpy(address_book->list[address_book->count - 1].phone_numbers[i], arr);
 	}
 
 	for(int i = 0; i < 5; i++){
-		printf("Enter Email Number %d: ", i + 1);
+		printf("3. Email ID 1 : %d \n", i + 1);
 		scanf("%s", arr);
 		strcpy(address_book->list[address_book->count - 1].email_addresses[i], arr);
 	}
