@@ -164,7 +164,7 @@ Status add_contacts(AddressBook *address_book)
 
 	printf("Successfully added new contact!\n");
 
-	main_menu();
+	
 
 	return e_success;
 }
