@@ -140,26 +140,31 @@ Status add_contacts(AddressBook *address_book)
 	address_book->list = newList;
 	address_book->count = address_book->count + 1;
 
+	printf("#######  Address Book  #######\n");
+	printf("####### Add Contact: \n");
+
 	char arr[32];
-	printf("Enter Name: ");
+	printf("1. Name       : %d ");
 	scanf("%s", arr);
 	
 	address_book->list[address_book->count - 1].si_no = (address_book->count - 1);
 	strcpy(address_book->list[address_book->count - 1].name[0], arr);
 
-	for(int i = 0; i < 5; i++){
-		printf("Enter Phone Number %d: ", i + 1);
+	for(int i = 0; i < 2; i++){
+		printf("2. Phone No 1 : %d ", i + 1);
 		scanf("%s", arr);
 		strcpy(address_book->list[address_book->count - 1].phone_numbers[i], arr);
 	}
 
-	for(int i = 0; i < 5; i++){
-		printf("Enter Email Number %d: ", i + 1);
+	for(int i = 0; i < 2; i++){
+		printf("3. Email ID 1 : %d ", i + 1);
 		scanf("%s", arr);
 		strcpy(address_book->list[address_book->count - 1].email_addresses[i], arr);
 	}
 
 	printf("Successfully added new contact!\n");
+
+	main_menu();
 
 	return e_success;
 }
