@@ -151,18 +151,16 @@ Status add_contacts(AddressBook *address_book)
 	address_book->list[address_book->count - 1].si_no = (address_book->count - 1);
 	strcpy(address_book->list[address_book->count - 1].name[0], arr);
 
-	for(int i = 0; i < 3; i++){
-		printf("2. Phone No 1 : ", i);
+	for(int i = 0; i < 5; i++){
+		printf("2. Phone No   : ", i+1);
 		scanf("%s", arr);
 		strcpy(address_book->list[address_book->count - 1].phone_numbers[i], arr);
-		i=i+1;
 	}
 
-	for(int i = 0; i < 3; i++){
-		printf("3. Email ID 1 : ", i);
+	for(int i = 0; i < 5; i++){
+		printf("3. Email ID   : ", i+1);
 		scanf("%s", arr);
 		strcpy(address_book->list[address_book->count - 1].email_addresses[i], arr);
-		i=i+1;
 	}
 
 	printf("\nSuccessfully added new contact!\n");
