@@ -230,29 +230,123 @@ int search(const char *str, AddressBook *address_book, int loop_count, int field
 	return e_fail;
 }
 
+void addressEdit(AddressBook *address_book, int pos){
+	// edit operations
+	int yesOrNo = -1;
+	char nameChange[32],phoneChange[32],emailChange[32];
+
+	while(yesOrNo != 1 && yesOrNo != 2){
+		printf("Edit the person's name?[1 for Yes, 2 for No]: ");
+		scanf("%d",&yesOrNo);
+		if(yesOrNo == 1){
+			printf("Enter New Name: ");
+			scanf("%s", nameChange);
+			strcpy(address_book->list[pos].name[0], nameChange);
+		}
+	}
+	yesOrNo = -1;
+
+	while(yesOrNo != 1 && yesOrNo != 2){
+		printf("Edit the person's phone number?[1 for Yes, 2 for No]: ");
+		scanf("%d",&yesOrNo);
+		if(yesOrNo == 1){
+			printf("Enter new Phone Number: ");
+			scanf("%s", phoneChange);
+			strcpy(address_book->list[pos].phone_numbers[0], phoneChange);
+		}
+	}
+	yesOrNo = -1;
+
+	while(yesOrNo != 1 && yesOrNo != 2){
+		printf("Edit the person's email address?[1 for Yes, 2 for No]: ");
+		scanf("%d",&yesOrNo);
+		if(yesOrNo == 1){
+			printf("Enter new email address: ");
+			scanf("%s", emailChange);
+			strcpy(address_book->list[pos].email_addresses[0], emailChange);
+		}
+	}
+			
+}
+
 /*Edits Contacts*/
 //Search contacts find the correct one then edit the info based on user input
 Status edit_contact(AddressBook *address_book)
 {
-	int option = 0;
-	while(option < 1 || option > 3){
-		printf("\n1. Edit by name.\n2. Edit contact by phone number.\n");
-		printf("3. Edit contact by email address.\n");
+	int option = -1, pos = -1;
+	char arr[32];
+
+	while(option < 0 || option > 4){
+		printf("\n0. Back to the previous menu\n1. Edit by name.\n");
+		printf("2. Edit by phone number.\n3. Edit by email address.\n");
+		printf("4. Edit by serial number.\n");
 		scanf("%d",&option);
 	}
 
+
 	switch (option){
+
+		case 0:
+			return e_back; 
+			// back to the previous menus options
+			
 		case 1:
-			printf("name");
+			// edit by name
+			while(pos<0){
+				printf("Enter Name: ");
+				scanf("%s", arr);
+				pos = search(arr, address_book, NAME_COUNT,0,"",e_search);
+				if(pos < 0)
+					printf("Name not found! Please try another name!\n");
+			}
+
+			addressEdit(address_book,pos);
 			break;
+			
 		case 2:
-			printf("number");
+			// edit by phone number
+			while(pos<0){
+				printf("Enter Phone Number: ");
+				scanf("%s", arr);
+				pos = search(arr, address_book, PHONE_NUMBER_COUNT,1,"",e_search);
+				if(pos < 0)
+					printf("Phone Number not found! Please try another number!\n");
+			}
+
+			addressEdit(address_book,pos);
+
 			break;
 
 		case 3:
-			printf("email");
+			// edit by email
+			while(pos<0){
+				printf("Enter Email Address: ");
+				scanf("%s", arr);
+				pos = search(arr, address_book, EMAIL_ID_COUNT,6,"",e_search);
+				if(pos < 0)
+					printf("Email Address not found! Please try another email!\n");
+			}
+
+			addressEdit(address_book,pos);
+			break;
+		
+		case 4:
+			// edit by serial number
+			while(pos<0){
+				printf("Enter Serial Number: ");
+				scanf("%s", arr);
+				pos = search(arr, address_book, 1,11,"",e_search);
+				if(pos < 0)
+					printf("Serial Number not found! Please try another number!\n");
+			}
+
+			addressEdit(address_book,pos);
+			break;
+
+		default:
 			break;
 	}
+	printf("Information Updated!\n");
 	return e_success;
 }
 
