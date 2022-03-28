@@ -1,11 +1,3 @@
-#ifdef WIN32
-#include <io.h>
-#define F_OK 0
-#define access _access
-#endif
-//this is for windows ^^ comment it out if ur on linux
-
-//#include <unistd.h> //uncomment if ur on linux
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,12 +11,17 @@
 //Works very unreadable atm tho lol
 Status load_file(AddressBook *address_book)
 {
-	int ret = access(DEFAULT_FILE, F_OK); // returns 0 if file exists
+	int ret = -1;
+	address_book->fp = fopen(DEFAULT_FILE, "r");
+	if(address_book->fp == NULL){
+		fclose(address_book->fp);
+		ret = 1;
+	}else{
+		ret = 0;
+	}
 
 	if (ret == 0)//file exists
 	{
-		address_book->fp = fopen(DEFAULT_FILE, "r");
-		
 		/*Getting Size*/
 		int size = 0;
 		char line[356];
@@ -67,7 +64,9 @@ Status load_file(AddressBook *address_book)
 	}
 	else
 	{
-		address_book->fp = fopen(DEFAULT_FILE, "w+");//creating file if it doesnt exist.
+		printf("File Not File Creating File\n");
+		address_book->fp = fopen(DEFAULT_FILE, "w+");
+		address_book->count = 0;//creating file if it doesnt exist.
 	}
 
 	fclose(address_book->fp);//yeet gotta close that bisch
@@ -94,7 +93,7 @@ Status save_file(AddressBook *address_book)
 				if(j < 5){
 					fprintf(address_book->fp, " %s,", address_book->list[i].phone_numbers[j]);
 				}else if(j >= 5 && j < 10){
-					fprintf(address_book->fp, " %s, ", address_book->list[i].email_addresses[j - 5]);
+					fprintf(address_book->fp, " %s,", address_book->list[i].email_addresses[j - 5]);
 				}
 			}
 			if(i != address_book->count - 1){
