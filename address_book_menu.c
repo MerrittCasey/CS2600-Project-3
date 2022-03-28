@@ -436,15 +436,22 @@ Status edit_contact(AddressBook *address_book)
 				prevpos = pos;
 			}
 
-			int si = 0;
-			printf("Select a Serial Number (S.No) to Edit: ");
-			scanf("%d", &si);
-
-			if(si > address_book->count || si < 0){
-				printf("Invalid Serial Number\n");
+			if(pos == e_fail){
+				printf("Not Found\n");
+				printf("\n");
+				printf("Enter Anything To Continue: ");
+				getchar();
+				fgetc(stdin);
 			}else{
-				pos = si - 1;
-				addressEdit(address_book,pos);	
+				int si = 0;
+				printf("Select a Serial Number (S.No) to Edit: ");
+				scanf("%d", &si);
+				if(si > address_book->count || si < 0){
+					printf("Invalid Serial Number\n");
+				}else{
+					pos = si - 1;
+					addressEdit(address_book,pos);	
+				}
 			}
 
 			break;
@@ -455,12 +462,14 @@ Status edit_contact(AddressBook *address_book)
 				printf("Enter Phone Number: ");
 				scanf("%s", arr);
 				pos = search(arr, address_book, 0,1,"",e_search);
-				printf("\n");
-				menu_header("Search Results:");
-				printf("\n");
-				list_contacts(address_book, "", pos, "", e_edit);
-				if(pos < 0)
+				if(pos < 0){
 					printf("Phone Number not found! Please try another number!\n");
+				}else{
+					printf("\n");
+					menu_header("Search Results:");
+					printf("\n");
+					list_contacts(address_book, "", pos, "", e_edit);
+				}
 			}
 
 			si = 0;
@@ -483,12 +492,14 @@ Status edit_contact(AddressBook *address_book)
 				printf("Enter Email Address: ");
 				scanf("%s", arr);
 				pos = search(arr, address_book, 0,6,"",e_search);
-				printf("\n");
-				menu_header("Search Results:");
-				printf("\n");
-				list_contacts(address_book, "", pos, "", e_edit);
-				if(pos < 0)
+				if(pos < 0){
 					printf("Email Address not found! Please try another email!\n");
+				}else{
+					printf("\n");
+					menu_header("Search Results:");
+					printf("\n");
+					list_contacts(address_book, "", pos, "", e_edit);
+				}
 			}
 			
 			si = 0;
@@ -509,11 +520,11 @@ Status edit_contact(AddressBook *address_book)
 			while(pos<0){
 				printf("Enter Serial Number: ");
 				scanf("%d", &si);
-			}
-			if(si > address_book->count || si < 0){
-				printf("Invalid Serial Number\n");
-			}else{
-				pos = si - 1;
+				if(si > address_book->count || si < 0){
+					printf("Invalid Serial Number\n");
+				}else{
+					pos = si - 1;
+				}
 			}
 
 			addressEdit(address_book,pos);

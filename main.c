@@ -26,6 +26,7 @@ int main(void)
 		}
 	}
 
+	free(address_book->list);
 	free(address_book);
 	return 0;
 }
