@@ -61,11 +61,7 @@ void menu_header(const char *str)
 {
 	fflush(stdout);
 
-	if(_WIN32){
-		system("cls");
-	}else{
-		system("clear");
-	}
+	system("clear");
 
 	printf("#######  Address Book  #######\n");
 	if (str != '\0')
@@ -615,7 +611,7 @@ Status delete_contact(AddressBook *address_book)
 		list_contacts(address_book, "", pos, "", e_delete);
 	}else if(option == 4){
 		printf("Enter Serial Number: ");
-		scanf("%d", si);
+		scanf("%d", &si);
 		getchar();
 		
 		if(si > address_book->count || si < 0){
@@ -701,7 +697,7 @@ Status list_contacts(AddressBook *address_book, const char *title, int index, co
 		printf("\n");
 		for(int i = 0; i < address_book->count; i++){
 			printf("=================================================================================================================\n");
-			printf(": %d    : %-32s : ", address_book->list[i].si_no, address_book->list[i].name);
+			printf(": %d    : %-32s : ", address_book->list[i].si_no, address_book->list[i].name[0]);
 			for(int j = 0; j < 5; j++){
 				if(j == 0){
 					printf("%-32s : %-32s :\n", address_book->list[i].phone_numbers[j], address_book->list[i].email_addresses[j]);
@@ -716,7 +712,7 @@ Status list_contacts(AddressBook *address_book, const char *title, int index, co
 		getchar();
 		fgetc(stdin);
 	}else if(mode == e_edit || mode == e_search || mode == e_delete){
-		printf(": %d    : %-32s : ", address_book->list[index].si_no, address_book->list[index].name);
+		printf(": %d    : %-32s : ", address_book->list[index].si_no, address_book->list[index].name[0]);
 		for(int j = 0; j < 5; j++){
 			if(j == 0){
 				printf("%-32s : %-32s :\n", address_book->list[index].phone_numbers[j], address_book->list[index].email_addresses[j]);
